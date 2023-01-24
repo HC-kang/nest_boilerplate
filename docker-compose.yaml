@@ -1,0 +1,21 @@
+services:
+  blog-app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15.1
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./db/postgres:/var/lib/postgres
+      - ./postgres_init:/docker-entrypoint-initdb.d/

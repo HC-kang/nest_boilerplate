@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { typeOrmConfig } from './configs/typeorm.config';
+import { TypeOrmConfigService } from './configs/typeorm-config.service';
 
 @Module({
   imports: [
@@ -13,7 +14,13 @@ import { typeOrmConfig } from './configs/typeorm.config';
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     AuthModule,
-    TypeOrmModule.forRoot(typeOrmConfig),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService,
+      dataSourceFactory: async (options) => {
+        const dataSource = await new DataSource(options).initialize();
+        return dataSource;
+      },
+    }),
     AuthModule,
   ],
   controllers: [AppController],
