@@ -1,20 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from '../users/users.service';
-import { AuthService } from './auth.service';
+import { UsersService } from './users.service';
 
-describe('AuthService', () => {
-  let service: AuthService;
-  let fakeAuthService: Partial<AuthService>;
+describe('UsersService', () => {
+  let service: UsersService;
   let fakeUsersService: Partial<UsersService>;
 
   beforeEach(async () => {
-    fakeAuthService = {};
+    fakeUsersService = {};
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        {
-          provide: AuthService,
-          useValue: fakeAuthService,
-        },
         {
           provide: UsersService,
           useValue: fakeUsersService,
@@ -22,7 +16,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    service = module.get<AuthService>(AuthService);
+    service = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {
