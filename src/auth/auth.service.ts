@@ -21,7 +21,7 @@ export class AuthService {
   async login(
     authLoginDto: AuthLoginDto,
   ): Promise<{ token: string; user: User }> {
-    const user = await this.usersService.findOne(authLoginDto.email);
+    const user = await this.usersService.findOneByEmail(authLoginDto.email);
 
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
@@ -43,5 +43,9 @@ export class AuthService {
       token,
       user,
     };
+  }
+
+  async me(user: User): Promise<User> {
+    return this.usersService.findOneById(user.id);
   }
 }

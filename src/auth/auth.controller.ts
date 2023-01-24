@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UseGuards,
   ValidationPipe,
@@ -26,8 +27,14 @@ export class AuthController {
     return this.authService.login(authLoginDto);
   }
 
+  @Get('/me')
+  @UseGuards(AuthGuard('jwt'))
+  async me(@GetUser() user: User) {
+    return this.authService.me(user);
+  }
+
   @Post('/test')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   test(@GetUser() user: User) {
     console.log(user);
     return user;

@@ -3,10 +3,17 @@ import { PostsService } from './posts.service';
 
 describe('PostsService', () => {
   let service: PostsService;
+  let fakePostsService: Partial<PostsService>;
 
   beforeEach(async () => {
+    fakePostsService = {};
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PostsService],
+      providers: [
+        {
+          provide: PostsService,
+          useValue: fakePostsService,
+        },
+      ],
     }).compile();
 
     service = module.get<PostsService>(PostsService);

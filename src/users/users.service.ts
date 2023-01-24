@@ -20,7 +20,15 @@ export class UsersService {
     return this.usersRepository.save(newUser);
   }
 
-  findOne(email: string) {
-    return this.usersRepository.findOneBy({ email });
+  findOneByEmail(email: string) {
+    return this.usersRepository.findOneBy({
+      email,
+    });
+  }
+
+  findOneById(id: number) {
+    return this.usersRepository.findOneBy({
+      id,
+    });
   }
 }
