@@ -27,12 +27,12 @@ jobs:
       run: npm run lint
 
     - name: Run Test
-      run: npm run test:cov
+      run: npm run test
 
     # - name: Run e2e Test
     #   run: npm run test:e2e
 
-    - name: Display coverage
-      uses: dkershner6/jest-coverage-commenter-action@v1
-      with:
-        github_token: ${{ secrets.TOKEN }}
+    # - name: Display coverage
+    #   uses: dkershner6/jest-coverage-commenter-action@v1
+    #   with:
+    #     github_token: ${{ secrets.TOKEN }}
