@@ -30,7 +30,7 @@ jobs:
     - name: Run Test
       run: npm run test
 
-    # - name: Display coverage
-    #   uses: dkershner6/jest-coverage-commenter-action@v1
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Display coverage
+      uses: dkershner6/jest-coverage-commenter-action@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
