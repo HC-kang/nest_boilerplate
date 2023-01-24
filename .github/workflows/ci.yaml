@@ -33,4 +33,4 @@ jobs:
     - name: Display coverage
       uses: dkershner6/jest-coverage-commenter-action@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.TOKEN }}
