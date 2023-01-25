@@ -1,0 +1,38 @@
+name: BOARD_CI
+
+on:
+  push:
+    branches:
+      - simple_board
+
+jobs:
+  board_ci:
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Code Checkout
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Code Linting
+      run: npm run lint
+
+    - name: Run Test
+      run: npm run test
+
+    # - name: Run e2e Test
+    #   run: npm run test:e2e
+
+    # - name: Display coverage
+    #   uses: dkershner6/jest-coverage-commenter-action@v1
+    #   with:
+    #     github_token: ${{ secrets.TOKEN }}

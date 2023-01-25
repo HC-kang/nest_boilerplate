@@ -4,14 +4,16 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { PostEntity } from '../../posts/entities/post.entity';
 
-@Entity()
+@Entity({ name: 'users' })
 @Unique(['username'])
-export class User extends BaseEntity {
+export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,6 +25,9 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  @OneToMany((type) => PostEntity, (post) => post.user, { eager: true })
+  posts: PostEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()
