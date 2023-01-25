@@ -7,7 +7,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from '../users/entities/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
@@ -29,13 +29,13 @@ export class AuthController {
 
   @Get('/me')
   @UseGuards(AuthGuard('jwt'))
-  async me(@GetUser() user: User) {
+  async me(@GetUser() user: UserEntity) {
     return this.authService.me(user);
   }
 
   @Post('/test')
   @UseGuards(AuthGuard('jwt'))
-  test(@GetUser() user: User) {
+  test(@GetUser() user: UserEntity) {
     console.log(user);
     return user;
   }

@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from '../users/entities/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
@@ -13,14 +13,14 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(authRegisterDto: AuthRegisterDto): Promise<User> {
+  async register(authRegisterDto: AuthRegisterDto): Promise<UserEntity> {
     const user = await this.usersService.create(authRegisterDto);
     return user;
   }
 
   async login(
     authLoginDto: AuthLoginDto,
-  ): Promise<{ token: string; user: User }> {
+  ): Promise<{ token: string; user: UserEntity }> {
     const user = await this.usersService.findOneByEmail(authLoginDto.email);
 
     if (!user) {
@@ -45,7 +45,7 @@ export class AuthService {
     };
   }
 
-  async me(user: User): Promise<User> {
+  async me(user: UserEntity): Promise<UserEntity> {
     return this.usersService.findOneById(user.id);
   }
 }

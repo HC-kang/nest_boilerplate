@@ -9,11 +9,11 @@ import {
   Unique,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { Post } from '../../posts/entities/post.entity';
+import { PostEntity } from '../../posts/entities/post.entity';
 
-@Entity()
+@Entity({ name: 'users' })
 @Unique(['username'])
-export class User extends BaseEntity {
+export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,8 +26,8 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @OneToMany((type) => Post, (post) => post.user, { eager: true })
-  posts: Post[];
+  @OneToMany((type) => PostEntity, (post) => post.user, { eager: true })
+  posts: PostEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()

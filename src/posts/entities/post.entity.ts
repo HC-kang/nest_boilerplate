@@ -1,4 +1,4 @@
-import { User } from '../../users/entities/user.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 import {
   BaseEntity,
   Column,
@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
-export class Post extends BaseEntity {
+@Entity({ name: 'posts' })
+export class PostEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,6 +18,6 @@ export class Post extends BaseEntity {
   @Column()
   content: string;
 
-  @ManyToOne((type) => User, (user) => user.posts, { eager: false })
-  user: User;
+  @ManyToOne((type) => UserEntity, (user) => user.posts, { eager: false })
+  user: UserEntity;
 }
