@@ -44,8 +44,6 @@ export class PostsController {
     @Body() updatePostDto: UpdatePostDto,
     @GetUser() user: UserEntity,
   ): Promise<PostEntity> {
-    console.log(id, 'id!!!');
-    console.log(user, 'user!!!');
     return await this.postsService.updatePost(id, updatePostDto, user);
   }
 }
