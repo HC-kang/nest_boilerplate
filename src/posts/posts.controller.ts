@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -45,5 +46,13 @@ export class PostsController {
     @GetUser() user: UserEntity,
   ): Promise<PostEntity> {
     return await this.postsService.updatePost(id, updatePostDto, user);
+  }
+
+  @Delete('/:id')
+  async deletePost(
+    @Param('id') id: number,
+    @GetUser() user: UserEntity,
+  ): Promise<PostEntity> {
+    return await this.postsService.deletePost(id, user);
   }
 }

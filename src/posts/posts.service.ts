@@ -48,7 +48,9 @@ export class PostsService {
   ): Promise<PostEntity> {
     const queryBuilder = this.postRepository
       .createQueryBuilder('posts')
-      .where('posts.id = :id', { id });
+      .where('posts.id = :id', { id })
+      .leftJoin('posts.user', 'user')
+      .addSelect('user');
 
     const aPost = await queryBuilder.getOne();
 
@@ -56,12 +58,31 @@ export class PostsService {
       throw new NotFoundException('Post not found');
     }
 
-    // if (aPost.user.id !== user.id) {
-    //   throw new UnauthorizedException('You are not the owner of this post');
-    // }
+    if (aPost.user.id !== user.id) {
+      throw new UnauthorizedException('You are not the owner of this post');
+    }
 
     this.postRepository.merge(aPost, updatePostDto);
+    return await this.postRepository.save(aPost);
+  }
 
-    return await this.postRepository.save(updatePostDto);
+  async deletePost(id: number, user: UserEntity): Promise<PostEntity> {
+    const queryBuilder = this.postRepository
+      .createQueryBuilder('posts')
+      .where('posts.id = :id', { id })
+      .leftJoin('posts.user', 'user')
+      .addSelect('user.id');
+
+    const aPost = await queryBuilder.getOne();
+
+    if (!aPost) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (aPost.user.id !== user.id) {
+      throw new UnauthorizedException('You are not the owner of this post');
+    }
+    await this.postRepository.remove(aPost);
+    return aPost;
   }
 }
