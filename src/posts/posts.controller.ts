@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Post,
   Put,
@@ -15,14 +16,21 @@ import { PostEntity } from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostsService } from './posts.service';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { Logger as WisLog } from 'winston';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Controller('posts')
 @UseGuards(AuthGuard('jwt'))
 export class PostsController {
-  constructor(private postsService: PostsService) {}
+  constructor(
+    private postsService: PostsService,
+    @Inject(WINSTON_MODULE_PROVIDER)
+    private log: WisLog,
+  ) {}
 
   @Get()
   async getPosts(): Promise<PostEntity[]> {
+    this.log.info('Getting all posts');
     return await this.postsService.getPosts();
   }
 
