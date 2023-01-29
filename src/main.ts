@@ -27,9 +27,7 @@ async function bootstrap() {
         }),
         new winston.transports.File({
           filename: 'logs/log.log',
-          format: winston.format.combine(
-            winston.format.timestamp(),
-          ),
+          format: winston.format.combine(winston.format.timestamp()),
         }),
       ],
     }),
