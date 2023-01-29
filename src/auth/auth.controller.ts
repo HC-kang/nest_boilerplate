@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
   UseGuards,
   ValidationPipe,
@@ -23,6 +24,7 @@ export class AuthController {
   }
 
   @Post('/login')
+  @HttpCode(200)
   async login(@Body(ValidationPipe) authLoginDto: AuthLoginDto) {
     return this.authService.login(authLoginDto);
   }
