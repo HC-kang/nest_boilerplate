@@ -8,8 +8,6 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmConfigService } from './configs/typeorm-config.service';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
-import { WinstonModule, utilities } from 'nest-winston';
-import * as winston from 'winston';
 
 @Module({
   imports: [
@@ -23,23 +21,6 @@ import * as winston from 'winston';
         const dataSource = await new DataSource(options).initialize();
         return dataSource;
       },
-    }),
-    WinstonModule.forRoot({
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            utilities.format.nestLike(),
-          ),
-        }),
-        new winston.transports.File({
-          filename: 'logs/logs.log',
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            utilities.format.nestLike(),
-          ),
-        }),
-      ],
     }),
     AuthModule,
     UsersModule,
