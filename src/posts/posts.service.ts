@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostEntity } from './entities/post.entity';
+import * as strings from '../resources/strings.js';
 
 @Injectable()
 export class PostsService {
@@ -55,11 +56,11 @@ export class PostsService {
     const aPost = await queryBuilder.getOne();
 
     if (!aPost) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException(strings.POST_NOT_FOUND);
     }
 
     if (aPost.user.id !== user.id) {
-      throw new UnauthorizedException('You are not the owner of this post');
+      throw new UnauthorizedException(strings.UNAUTHORIZED_ERROR);
     }
 
     this.postRepository.merge(aPost, updatePostDto);
@@ -76,11 +77,11 @@ export class PostsService {
     const aPost = await queryBuilder.getOne();
 
     if (!aPost) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException(strings.POST_NOT_FOUND);
     }
 
     if (aPost.user.id !== user.id) {
-      throw new UnauthorizedException('You are not the owner of this post');
+      throw new UnauthorizedException(strings.UNAUTHORIZED_ERROR);
     }
     await this.postRepository.remove(aPost);
     return aPost;
