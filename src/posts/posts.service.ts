@@ -9,7 +9,6 @@ import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostEntity } from './entities/post.entity';
-import * as strings from '../resources/strings.js';
 
 @Injectable()
 export class PostsService {
@@ -56,11 +55,11 @@ export class PostsService {
     const aPost = await queryBuilder.getOne();
 
     if (!aPost) {
-      throw new NotFoundException(strings.POST_NOT_FOUND);
+      throw new NotFoundException('Post not found');
     }
 
     if (aPost.user.id !== user.id) {
-      throw new UnauthorizedException(strings.UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException('Unauthorized');
     }
 
     this.postRepository.merge(aPost, updatePostDto);
@@ -77,11 +76,11 @@ export class PostsService {
     const aPost = await queryBuilder.getOne();
 
     if (!aPost) {
-      throw new NotFoundException(strings.POST_NOT_FOUND);
+      throw new NotFoundException('Post not found');
     }
 
     if (aPost.user.id !== user.id) {
-      throw new UnauthorizedException(strings.UNAUTHORIZED_ERROR);
+      throw new UnauthorizedException('Unauthorized');
     }
     await this.postRepository.remove(aPost);
     return aPost;
